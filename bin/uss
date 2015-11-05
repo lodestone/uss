@@ -1,0 +1,32 @@
+#!/usr/bin/env ruby
+$LOAD_PATH << 'lib'
+require 'optparse'
+require 'ostruct'
+require 'uss'
+
+class CLIOptions
+  attr_accessor :options
+  def initialize(args)
+    @options = OpenStruct.new
+    opt_parser = OptionParser.new do |opts|
+      opts.banner = "Usage: uss [options] dictionary-file"
+      opts.on("-l", "--length [length]", Integer, "the length of the unique sub-string") do |length|
+        options.length = length
+      end
+      opts.on("-s", "--stem [file]", "the stem file") do |file|
+        options.stem_file = file
+      end
+      opts.on("-u", "--unique [file]", "the unique string file") do |file|
+        options.unique_file = file
+      end
+      # TODO: Verbosity, Version
+    end
+    opt_parser.parse!(args)
+  end
+
+  def to_search_options
+    {corpus: ARGV.first, length: options.length, stems_outfile: options.stem_file, uniques_outfile: options.unique_file}
+  end
+end
+
+USS::UniqueSearcher.new(CLIOptions.new(ARGV).to_search_options)

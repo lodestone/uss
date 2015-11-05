@@ -1,0 +1,47 @@
+= README-ALSO
+By Matthew Petty
+
+:numbered!:
+
+== _Because ASCIIDOC is more fun!_
+
+== USS: Universal String Searcher
+
+=== Unique Searcher:
+
+This library will, given a
+corpus,footnote:[A corpus should consist of words or phrases separated by a new line.]
+write out two new files:
+
+* `uniques.txt`
+* `stems.txt`
+
+The `uniques.txt` file contains every sequence of
+four footnote:[By default this library searches for a unique string length of 4, but it can be customized.]
+letters `[A-z]` that appear in exactly one word of the dictionary corpus, one sequence per line.
+
+The `stems.txt` file contains the corresponding words that contain the
+sequences/uniques, in the same order, again one per line.
+
+For example, given the trivial dictionary containing only:
+
+[source,plain]
+
+  arrows
+  carrots
+  give
+  me
+
+The outputs should be:
+
+[source,plain]
+
+  'sequences'             'words'
+  carr                    carrots
+  give                    give
+  rots                    carrots
+  rows                    arrows
+  rrot                    carrots
+  rrow                    arrows
+
+Of course, `arro` does not appear in the output, since it is found in more than one word.
